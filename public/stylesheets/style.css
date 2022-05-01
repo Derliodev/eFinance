@@ -1,0 +1,40 @@
+body {
+  background: #000046;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #1CB5E0, #000046);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #1CB5E0, #000046);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  padding: 0px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+#navbar{
+  background-color: #000046;
+}
+
+.container {
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+footer{
+  z-index: 1;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+footer p{
+  text-align: center;
+}

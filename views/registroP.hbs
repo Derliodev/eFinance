@@ -1,0 +1,76 @@
+<div class="container">
+    <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card my-2">
+            <div class="card-body">
+                {{#if producto.id}}
+                <form action="/control/actualizarProducto" method="post">
+                {{else}}
+                <form action="/control/guardarProducto" method="post">
+                {{/if}}
+                    <div class="card-header bg-success text-white text-center mb-3">
+                        <h3>Agregar Productos</h1>
+                        <input type="hidden" name="id" id="id" value="{{producto.id}}" />
+                    </div>
+                    <div class="input-group mt-5">
+                        <label for="nProducto" class="input-group-text">Nombre Producto</label>
+                        <input type="text" class="form-control" aria-label="Default" id="nProducto" name="nProducto"
+                            aria-describedby="inputGroup-sizing-default" placeholder="Nombre Producto" value="{{producto.nombre}}">
+                        
+                    </div>
+                    <div class="input-group mt-4">
+                        <label for="pPresupuesto" class="input-group-text">Presupuesto</label>
+                        <input type="number" class="form-control" aria-label="Default" id="pPresupuesto" name="pPresupuesto"
+                            aria-describedby="inputGroup-sizing-default" placeholder="Precio Presupuestado" value="{{producto.nPresup}}" required>
+                    </div>
+                    <div class="input-group mt-4">
+                        <label for="pReal" class="input-group-text">Precio Real</label>
+                        <input type="number" class="form-control" aria-label="Default" id="pReal" name="pReal"
+                            aria-describedby="inputGroup-sizing-default" placeholder="Precio Real" value="{{producto.nReal}}" required>
+                    </div>
+                    <div class="input-group mt-4">
+                        <label for="tienda" class="input-group-text">Tienda </label>
+                        <select class="form-select" aria-label="Default select example" id="tienda" name="tienda"
+                            aria-describedby="inputGroup-sizing-default" >
+                            {{#if producto.tienda}}
+                                <option value="{{producto.tienda}}" selected>{{producto.tienda}}</option>
+                            {{else}}
+                                <option value="" selected disabled>Seleccione Tienda</option>
+                                {{#each tiendas}}
+                                <option value="{{this.nombre}}">{{this.nombre}}</option>
+                                {{/each}}
+                            {{/if}}
+                        </select>
+                    </div>
+                    <div class="input-group mt-4">
+                        <label for="estado" class="input-group-text">Lo compraste? </label>
+                        <select class="form-select" aria-label="Default select example" id="estado" name="estado"
+                            aria-describedby="inputGroup-sizing-default" required >
+                            {{#if producto.estado}}
+                            <option value=" " >Aun no lo compro...</option>
+                            <option value="C" selected>Comprado</option>
+                            {{else}}
+                            <option value=" " selected>Aun no lo compro...</option>
+                            <option value="C">Comprado</option>
+                            {{/if}}
+                                
+                        </select>
+                    </div>
+                    <div class="input-group mt-4">
+                        <label style="margin-right: 20px;" for="nota" >Notas Adicionales </label>
+                        <textarea type="text" class="form-control" aria-label="Default" id="nota" name="nota"
+                            aria-describedby="inputGroup-sizing-default" placeholder="Nota" >{{producto.nota}}</textarea>
+                    </div>
+                    <div class="form-group"><br>
+                        {{#if producto.id}}
+                        <button type="submit" class="btn btn-warning w-100 mt-3">Modificar Producto</button>
+                        {{else}}
+                        <button type="submit" class="btn btn-warning w-100 mt-3">Agregar Producto</button>
+                        {{/if}}
+                        <a href="javascript:history.back()" class="btn btn-danger w-100 mt-3">Cancelar</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

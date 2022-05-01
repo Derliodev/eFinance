@@ -1,0 +1,48 @@
+<div class="container">
+    <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card my-2">
+            <div class="card-body">
+                <h2 class="card-title mb-5 text-center">Listas Productos</h2>
+                <table class="table table-stripped text-center">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Presupuesto</th>
+                            <th>Precio Real</th>
+                            <th>Tienda</th>
+                            <th>Notas</th>
+                            <th>Estado</th>
+                            <th>Accion</th>
+                        </tr>
+                    </thead>
+                    {{#each productos}}
+                    <tr>
+                        <td>{{this.nombre}}</td>
+                        <td>$ {{this.nPresup}}</td>
+                        <td>$ {{this.nReal}}</td>
+                        <td>{{this.tienda}}</td>
+                        <td>{{this.nota}}</td>
+                        {{#if this.estado}}
+                        <td><p style="color: green;">Comprado</p></td>
+                        {{else}}
+                        <td><p style="color: red;">Pendiente</p></td>
+                        {{/if}}
+                        <td>
+                            {{#if this.estado}}
+                            <a class="btn btn-success">Pagado</a>
+                            {{else}}
+                            <a class="btn btn-warning" href="/control/pagarProducto/{{this.id}}">Pagar</a>
+                            {{/if}}
+                            <a class="btn btn-primary" href="/control/modificarProducto/{{this.id}}">Modificar</a>
+                            <a class="btn btn-danger" href="/control/eliminarProducto/{{this.id}}">Eliminar</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </table>
+                <br>
+                <a href="/control/agregarProductos/{{this.id}}" class="btn btn-primary w-100 mt-5">Agregar Productos</a>
+                <a href="/control/listas" class="btn btn-warning w-100 mt-2">Volver a Listas</a>
+            </div>
+        </div>
+    </div>
+</div>

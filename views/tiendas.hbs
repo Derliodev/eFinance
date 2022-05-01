@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card my-2">
+            <div class="card-body">
+                <h2 class="card-title mb-5 text-center">Tiendas</h2>
+                <table class="table table-stripped text-center">
+                    <thead>
+                        <tr>
+                            <th>Tienda</th>
+                            <!-- <th>Sucursal</th> -->
+                            <th>Direccion</th>
+                            <th>Ciudad</th>
+                            <th>Region</th>
+                            <th>Estado</th>
+                            <th>{{rol}}</th>
+                        </tr>
+                    </thead>
+                    {{#each tiendas}}
+                    <tr>
+                        <td>{{this.nombre}}</td>
+                        <!-- <td>{{this.sucursal}}</td> -->
+                        <td>{{this.direccion}}</td>
+                        <td>{{this.ciudad}}</td>
+                        <td>{{this.region}}</td>
+                        {{#if rol}}
+                            <td><p class="btn btn-success" style="color: green;">Activo</p></td>
+                        {{else}}
+                            {{#if this.estado}}
+                            <td><p style="color: green;">Activo</p></td>
+                            {{else}}
+                            <td><p style="color: red;">Pendiente</p></td>
+                            {{/if}}
+                        {{/if}}
+                    </tr>
+                    {{/each}}
+                </table>
+                <a href="/control/agregarT" class="btn btn-primary w-100 mt-4">Agregar Tienda</a>
+                <a href="/control/main" class="btn btn-danger w-100 mt-3">Volver</a>
+            </div>
+        </div>
+    </div>
+</div>

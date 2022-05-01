@@ -1,0 +1,45 @@
+<div class="container">
+    <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card my-2">
+            <div class="card-body">
+                <h2 class="card-title mb-5 text-center">Listas compras</h2>
+                <table class="table table-stripped text-center">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>N° Productos</th>
+                            <th>N° Comprados</th>
+                            <th>$ Presupuesto</th>
+                            <th>$ Gastado</th>
+                            <th>Estado</th>
+                            <th colspan="2">Accion</th>
+                        </tr>
+                    </thead>
+                    {{#each listas}}
+                    <tr>
+                        <td>{{this.nombre}}</td>
+                        <td>{{this.nProd}}</td>
+                        <td>{{this.nComp}}</td>
+                        <td>{{this.toPresup}}</td>
+                        <td>{{this.toGast}}</td>
+                        {{#if this.estado}}
+                        <td><p style="color: red;">Finalizado</p></td>
+                        {{else}}
+                        <td><p style="color: green;">Activo</p></td>
+                        {{/if}}
+                        <td>
+                            <a href="/control/verLista">Ver</a> <!-- /{{this.id}} -->
+                        </td>
+                        <td>
+                            <a href="/control/eliminarLista/{{this.id}}">Eliminar</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </table>
+                <br>
+                <a href="/control/agregarLista" class="btn btn-primary w-100 mt-5">Agregar Lista</a>
+                <a href="/control/main" class="btn btn-danger w-100 mt-3">Volver</a>
+            </div>
+        </div>
+    </div>
+</div>
