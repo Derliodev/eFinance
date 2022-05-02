@@ -9,6 +9,9 @@ var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var controlRouter = require('./routes/control')
 
+/* Session */
+var session = require('express-session');
+
 var app = express();
 
 // view engine setup
@@ -18,6 +21,14 @@ app.set('view engine', 'hbs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(session({
+  secret: 'session_var_cat',
+  resave: false,
+  saveUninitialized: true,
+}));
+
+var sess;
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 

@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     toPresup: DataTypes.INTEGER,
     toGast: DataTypes.INTEGER,
     estado: DataTypes.CHAR,
-    alert: DataTypes.STRING
+    alert: DataTypes.STRING,
+    idUser: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'lista',

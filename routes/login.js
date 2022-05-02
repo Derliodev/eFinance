@@ -1,4 +1,5 @@
 var express = require('express');
+const res = require('express/lib/response');
 const async = require('hbs/lib/async');
 var router = express.Router();
 
@@ -13,7 +14,13 @@ router.get('/', function(req, res, next) {
     //});
 });
 
-/* Control Usuario */
+
+/////////////
+/* Session */
+/////////////
+
+
+// Iniciar Sesion
 router.post('/ingresoUser', async function(req, res, next) {
     usr = req.body.usuario;
     pss = req.body.password;
@@ -21,10 +28,25 @@ router.post('/ingresoUser', async function(req, res, next) {
     if(exist == null){
         res.redirect('/?val=1');
     }else{
-        console.log(exist.usuario);
-        res.redirect('/control/main/' + exist.id);
+        // Variable objeto Usuario
+        sess = req.session;
+        sess.usrVar = exist;
+        res.redirect('/control/main/');
     }
 });
+
+//Cerrar Sesion
+router.get('/logout', function(req,res,next) {
+    delete req.session.usrVar;
+    delete req.session.destroy();
+    res.redirect('/');
+})
+
+
+
+//////////////
+/* Usuarios */
+//////////////
 
 //Guardar Registro
 router.post('/guardarUsuario', function (req, res, next) {

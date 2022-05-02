@@ -23,31 +23,21 @@
 <body>
   <nav class="navbar navbar-expand-sm navbar-dark" id="navbar">
     <div class="container-fluid">
-      {{#if id}}
-      <a class="navbar-brand" href="/control/main/{{id}}">eFinance</a><!-- Pasar rol -->
-      {{else}}
-      <a class="navbar-brand" href="/">eFinance</a><!-- Pasar rol -->
-      {{/if}}
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+      <a class="navbar-brand" href="/control/main/">eFinance</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="mynavbar">
           <ul class="navbar-nav">
-            {{#if role}}
-            <li class="nav-item">
-            <a class="nav-link" style="color: red; font-weight: bold;">{{nombre}}</a>
-            </li>
-            {{/if}}
-
           <li class="nav-item">
-            <a class="nav-link" href="/control/listas/{{id}}">Listas</a>
+            <a class="nav-link" href="/control/listas/">Listas</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/control/tiendas/{{id}}">Tiendas</a>
+            <a class="nav-link" href="/control/tiendas/">Tiendas</a>
           </li>
         </ul>
         <form class="d-flex">
-          <a href="/" style="margin: 0px 15px;" class="btn btn-danger">Cerrar Sesión</a>
+          <a href="/login/logout" style="margin: 0px 15px;" class="btn btn-danger">Cerrar Sesión</a>
         </form>
          
       </div>

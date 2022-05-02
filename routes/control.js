@@ -8,100 +8,60 @@ var Tiendas = require('../models').tiendas;
 var Lista = require('../models').lista;
 var Producto = require('../models').producto;
 
-// Variables momentaneas
-var role = ' ';
-
 // Capturar Usuario
 
-function usuarioObjeto(id){
-    Usuario.findByPk(id).then(function(usuarioR){
-        return usuarioR;
-    })
-}
-
 /* GET home page. */
-
-router.get('/main/:id', function (req, res, next) {
-    nUser = req.params.id;
-    Usuario.findByPk(nUser).then((usuario)=>{
-        this.role = usuario.role;
-        res.render('main', {role :usuario.role, nombre:usuario.usuario, id:nUser});
+// Check Main
+router.get('/main', async function (req, res, next) {
+    var usuario = req.session.usrVar;
+    sess = req.session;
+    await Tiendas.findAll({}).then(function (tiendaRespuesta) {
+        sess.tiendas = tiendaRespuesta;    
     })
+    if(usuario){
+        res.render('main', {usuario});
+    }else{
+        res.render('login', {layout: 'layoutLogin'});
+    }
 });
 
+/////////////
+/* TIENDAS */
+/////////////
 
-router.get('/main', function (req, res, next) {
-    res.redirect('/login/');
+//Listado de tiendas
+router.get('/tiendas', function (req, res, next) {
+    var usuario = req.session.usrVar;
+    if(usuario){
+        if(usuario.role == 's'){
+            Tiendas.findAll({}).then(function (tiendaRespuesta) {
+                res.render('tiendasAuth', { tiendas: tiendaRespuesta, usuario });
+            });
+        }else{
+            Tiendas.findAll({}).then(function (tiendaRespuesta) {
+                res.render('tiendas', { tiendas: tiendaRespuesta, usuario });
+            });
+        }
+    }else{
+        res.render('login', {layout: 'layoutLogin'});
+    }
 });
 
-/* POST home page.
-router.post('/main/:id', function (req, res, next) {
-    Usuario.findAll({}).then(function (usuariosRespuesta) {
-        res.render('main', { usuario: usuariosRespuesta });
-    });
-}); */
-
-
-/* Nav */
-router.get('/tiendas/:id', function (req, res, next) {
-    //role = req.params.role;
-    Tiendas.findAll({}).then(function (tiendaRespuesta) {
-        res.render('tiendas', { tiendas: tiendaRespuesta, rol:role });
-        //console.log(rol);
-    });
-});
-
-
-router.get('/listas/:id', function (req, res, next) {
-    nUser = req.params.id;
-    Lista.findAll({}).then(function (listaRespuesta) {
-        res.render('listas', { listas: listaRespuesta, id:nUser });
-    });
-});
-
-
-// Falla !!! Debe traer el nombre de la tienda y pasarlo a la vista
-router.get('/verLista', async function (req, res, next) {
-    /*productos = await Producto.findAll({});
-    tienda =  (fn) => {
-        for(let prod of productos){tienda = prod.tienda;};
-    };*/
-    Producto.findAll({}/*{ where: {tienda:tienda}}*/).then(function (tiendaRespuesta) {
-        res.render('listado',{ productos: tiendaRespuesta});
-    });
-});
-
+// Agregar Tienda
 router.get('/agregarT', function (req, res, next) {
-    Tiendas.findAll({}).then(function (tiendaRespuesta) {
-        res.render('registroT', { tiendas: tiendaRespuesta });
-    });
-});
+    var usuario = req.session.usrVar;
+    if(usuario){
+        Tiendas.findAll({}).then(function (tiendaRespuesta) {
+            res.render('registroT', { tiendas: tiendaRespuesta, usuario });
+        });
+    }else{
+        res.render('login', {layout: 'layoutLogin'});
+    }
+}); 
 
-router.get('/agregarLista', function (req, res, next) {
-    Tiendas.findAll({}).then(function (tiendaRespuesta) {
-        res.render('registroL', { tiendas: tiendaRespuesta });
-    });
-});
-
-router.get('/agregarProductos', function (req, res, next) {
-    Tiendas.findAll({}).then(function (tiendaRespuesta) {
-        res.render('registroP', { tiendas: tiendaRespuesta });
-    });
-});
-
-router.get('/modificarProducto/:id', function (req, res, next) {
-    id = req['params']['id'];
-    Producto.findByPk(id).then(function (productoRespuesta) {
-        res.render('registroP', { producto: productoRespuesta });
-    });
-});
-
-
-/* CRUD TIENDAS */
 //Crear Tiendas
 router.post('/guardarTienda', function (req, res, next) {
     nombre = req['body']['ntienda'];
-    //sucursal = req['body']['sucursal'];
     direccion = req['body']['direccion'];
     ciudad = req['body']['ciudad'];
     region = req['body']['region'];
@@ -116,12 +76,102 @@ router.post('/guardarTienda', function (req, res, next) {
     })
 });
 
-//Crear listas
+// Eliminar Tienda
+router.get('/eliminarTienda/:id', function (req, res, next) {
+    id = req.params.id;
+    idLista = sess.lista;
+    Tiendas.findByPk(id).then((tienda) => {
+        return tienda.destroy();
+    }).then(function(){
+        res.redirect('/control/tiendas');
+    })
+});
 
+
+// Activar Tienda
+router.get('/activarT/:id', function (req, res, next) {
+    var usuario = req.session.usrVar;
+    id = req.params.id;
+    if(usuario){
+        Tiendas.findByPk(id).then(function (tienda) {
+            tienda.estado = 'A';
+            tienda.save();
+            res.redirect('/control/tiendas');
+        });
+    }else{
+        res.render('login', {layout: 'layoutLogin'});
+    }
+}); 
+
+
+///////////////////////
+/* Listas de Compras */ 
+///////////////////////
+
+//Listado de Listas de comprar
+router.get('/listas', function (req, res, next) {
+    var usuario = req.session.usrVar;
+    if(usuario){
+        Lista.findAll({where:{ idUser : usuario.id }}).then(function (listaRespuesta) {
+            res.render('listas', { listas: listaRespuesta});
+        });
+    }else{
+        res.render('login', {layout: 'layoutLogin'});
+    }
+});
+
+// Ver una Lista
+router.get('/verLista/:id', async function (req, res, next) {
+    var usuario = req.session.usrVar;
+    idLista = req['params']['id'];
+    sess = req.session;
+    sess.lista = idLista;
+    if(usuario){
+        Producto.findAll({where:{lista:sess.lista}}).then(function (listaRespuesta) {
+                var cant = listaRespuesta.length;
+                let sumaValor = 0;
+                let sumaComp = 0;
+                for(let i = 0; i < cant; i++){
+                    sumaValor +=  parseInt(listaRespuesta[i].nReal);
+                    if(listaRespuesta[i].estado == 'C'){
+                        sumaComp+= 1;
+                    }
+                }
+                Lista.findByPk(idLista).then(function(lista){
+                    lista.toGast = sumaValor;
+                    lista.nProd = cant;
+                    lista.nComp = sumaComp;
+                    lista.save();
+                }).then(()=>{
+                    res.render('listado',{ productos: listaRespuesta});
+                })
+        });
+    }else{
+        res.render('login', {layout: 'layoutLogin'});
+    }
+});
+
+
+//Crear Lista
+router.get('/agregarLista', function (req, res, next) {
+    var usuario = req.session.usrVar;
+    if(usuario){
+        Tiendas.findAll({}).then(function (tiendaRespuesta) {
+            res.render('registroL', { tiendas: tiendaRespuesta });
+        });
+    }else{
+        res.render('login', {layout: 'layoutLogin'});
+    }
+});
+
+// Guardar listas
 router.post('/guardarLista', function (req, res, next) {
+    var usuario = req.session.usrVar;
+    idU = usuario.id;
     nombre = req['body']['nLista'];
     presup = req['body']['presupuesto'];
     Lista.create({
+        idUser:idU,
         nombre:nombre,
         nProd:0,
         nComp:0,
@@ -134,27 +184,46 @@ router.post('/guardarLista', function (req, res, next) {
     })
 });
 
-//Eliminar lista
-//Eliminar
+// Eliminar Lista
 router.get('/eliminarLista/:id', function (req, res, next) {
     id = req.params.id;
-    Lista.findByPk(id).then((usuario) => {
-        return usuario.destroy();
+    Lista.findByPk(id).then((lista) => {
+        return lista.destroy();
     }).then(function () {
         res.redirect('/control/listas');
     });
 });
 
-//Agregar Productos
 
+///////////////
+/* PRODUCTOS */
+///////////////
+
+// Agregar producto
+
+router.get('/agregarProductos/', function (req, res, next) {
+    var usuario = req.session.usrVar;
+    if(usuario){
+        Tiendas.findAll({}).then(function (tiendaRespuesta) {
+            res.render('registroP', { tiendas: tiendaRespuesta,usuario});
+        });
+    }else{
+        res.render('login', {layout: 'layoutLogin'});
+    }
+});
+
+
+// Guardar Productos
 router.post('/guardarProducto', function (req, res, next) {
+    var usuario = req.session.usrVar;
+    
     nombre = req['body']['nProducto'];
     pPresupuesto = req['body']['pPresupuesto'];
     pR = req['body']['pReal'];
     tienda = req['body']['tienda'];
     nota = req['body']['nota'];
     estado = req['body']['estado'];
-    lista = req['body']['lista'];
+    idLista = sess.lista;
     Producto.create({
         nombre:nombre,
         nPresup:pPresupuesto,
@@ -162,14 +231,40 @@ router.post('/guardarProducto', function (req, res, next) {
         tienda:tienda,
         nota:nota,
         estado:'',
-        lista:lista
+        lista:idLista
     }).then(function(){
-        res.redirect('/control/verLista');/*:id */
+        idLista = sess.lista;;
+        res.redirect('/control/verLista/'+idLista);
+    })
+});
+
+// Eliminar Producto
+router.get('/eliminarProducto/:id', function (req, res, next) {
+    id = req.params.id;
+    idLista = sess.lista;
+    Producto.findByPk(id).then((producto) => {
+        return producto.destroy();
+    }).then(function(){
+        res.redirect('/control/verLista/'+idLista);
     })
 });
 
 // Modificar Producto
 
+router.get('/modificarProducto/:id', function (req, res, next) {
+    var usuario = req.session.usrVar;
+    id = req['params']['id'];
+    if(usuario){
+        Producto.findByPk(id).then(function (productoRespuesta) {
+            res.render('registroP', { producto: productoRespuesta });
+        });
+    }else{
+        res.render('login', {layout: 'layoutLogin'});
+    }
+});
+
+
+// Guardar producto modificado
 router.post('/actualizarProducto', function (req, res, next) {
     id = req['body']['id'];
     nombre = req['body']['nProducto'];
@@ -178,43 +273,33 @@ router.post('/actualizarProducto', function (req, res, next) {
     tienda = req['body']['tienda'];
     nota = req['body']['nota'];
     estado = req['body']['estado'];
-
-
-    Producto.findByPk(id).then(function (prod) {
-        prod.nombre = nombre,
-        prod.nPresup = pPresupuesto,
-        prod.nReal = pReal,
-        prod.estado = estado,
-        prod.tienda = tienda,
-        prod.nota = nota
-        prod.save();
+    idLista = sess.lista;
+    Producto.findByPk(id).then(function (producto) {
+        producto.nombre = nombre,
+        producto.nPresup = pPresupuesto,
+        producto.nReal = pReal,
+        producto.estado = estado,
+        producto.tienda = tienda,
+        producto.nota = nota
+        producto.save();
     }).then(() => {
-        res.redirect('/control/verLista');
+        res.redirect('/control/verLista/'+idLista);
     });
 });
 
 // Pagar Producto
-
 router.get('/pagarProducto/:id', function (req, res, next) {
     id = req.params.id;
-    Producto.findByPk(id).then(function (prod) {
-        prod.estado = 'C'
-        prod.save();
+    idLista = sess.lista;
+    Producto.findByPk(id).then(function (producto) {
+        producto.estado = 'C'
+        producto.save();
     }).then(() => {
-        res.redirect('/control/verLista');
+        res.redirect('/control/verLista/'+idLista);
     });
 });
 
 
-// Eliminar Producto
-router.get('/eliminarProducto/:id', function (req, res, next) {
-    id = req.params.id;
-    Producto.findByPk(id).then((prod) => {
-        return prod.destroy();
-    }).then(function () {
-        res.redirect('/control/verLista');
-    });
-});
 
 
 

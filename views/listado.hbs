@@ -23,9 +23,13 @@
                         <td>{{this.tienda}}</td>
                         <td>{{this.nota}}</td>
                         {{#if this.estado}}
-                        <td><p style="color: green;">Comprado</p></td>
+                        <td>
+                            <p style="color: green;">Comprado</p>
+                        </td>
                         {{else}}
-                        <td><p style="color: red;">Pendiente</p></td>
+                        <td>
+                            <p style="color: red;">Pendiente</p>
+                        </td>
                         {{/if}}
                         <td>
                             {{#if this.estado}}
@@ -40,7 +44,7 @@
                     {{/each}}
                 </table>
                 <br>
-                <a href="/control/agregarProductos/{{this.id}}" class="btn btn-primary w-100 mt-5">Agregar Productos</a>
+                <a href="/control/agregarProductos/{{idLista}}" class="btn btn-primary w-100 mt-5">Agregar Productos</a>
                 <a href="/control/listas" class="btn btn-warning w-100 mt-2">Volver a Listas</a>
             </div>
         </div>

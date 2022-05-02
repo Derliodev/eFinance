@@ -12,7 +12,7 @@
                             <th>Ciudad</th>
                             <th>Region</th>
                             <th>Estado</th>
-                            <th>{{rol}}</th>
+                            <th colspan="3">Accion</th>
                         </tr>
                     </thead>
                     {{#each tiendas}}
@@ -22,10 +22,13 @@
                         <td>{{this.direccion}}</td>
                         <td>{{this.ciudad}}</td>
                         <td>{{this.region}}</td>
+                        <td>{{this.region}}</td>
                         {{#if this.estado}}
-                            <td><p style="color: green;">Activo</p></td>
+                        <td><p class="btn btn-success" style="color: white;">Activado</p></td>
+                        <td><a href="/control/eliminarTienda/{{this.id}}" class="btn btn-warning" style="color: red;">Eliminar</a></td>
                         {{else}}
-                            <td><p style="color: red;">Pendiente</p></td>
+                        <td><a href="/control/activarT/{{this.id}}" class="btn btn-warning" style="color: red;">Activar</a></td>
+                        <td><a href="/control/eliminarTienda/{{this.id}}" class="btn btn-warning" style="color: red;">Eliminar</a></td>
                         {{/if}}
                     </tr>
                     {{/each}}

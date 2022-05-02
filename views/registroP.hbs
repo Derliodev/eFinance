@@ -2,14 +2,15 @@
     <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card my-2">
             <div class="card-body">
+                
                 {{#if producto.id}}
                 <form action="/control/actualizarProducto" method="post">
                 {{else}}
                 <form action="/control/guardarProducto" method="post">
                 {{/if}}
+                    <input type="hidden" value="{{producto.id}}" id="id" name="id">
                     <div class="card-header bg-success text-white text-center mb-3">
                         <h3>Agregar Productos</h1>
-                        <input type="hidden" name="id" id="id" value="{{producto.id}}" />
                     </div>
                     <div class="input-group mt-5">
                         <label for="nProducto" class="input-group-text">Nombre Producto</label>
