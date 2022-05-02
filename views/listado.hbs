@@ -1,9 +1,9 @@
 <div class="container">
     <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card my-2">
-            <div class="card-body">
+            <div class="card-body table-responsive">
                 <h2 class="card-title mb-5 text-center">Listas Productos</h2>
-                <table class="table table-stripped text-center">
+                <table class="table table-stripped text-center table-bordered">
                     <thead>
                         <tr>
                             <th>Nombre</th>
@@ -35,10 +35,10 @@
                             {{#if this.estado}}
                             <a class="btn btn-success">Pagado</a>
                             {{else}}
-                            <a class="btn btn-warning" href="/control/pagarProducto/{{this.id}}">Pagar</a>
+                            <a class="btn btn-warning" href="#" onclick="pagarProducto({{this.id}})">Pagar</a>
                             {{/if}}
                             <a class="btn btn-primary" href="/control/modificarProducto/{{this.id}}">Modificar</a>
-                            <a class="btn btn-danger" href="/control/eliminarProducto/{{this.id}}">Eliminar</a>
+                            <a class="btn btn-danger" href="#" onclick="eliminarProducto({{this.id}})">Eliminar</a>
                         </td>
                     </tr>
                     {{/each}}
@@ -49,4 +49,6 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.all.min.js"></script>
+    <script src="/javascripts/script.js"></script>
 </div>

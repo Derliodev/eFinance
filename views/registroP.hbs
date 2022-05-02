@@ -26,12 +26,12 @@
                     <div class="input-group mt-4">
                         <label for="pReal" class="input-group-text">Precio Real</label>
                         <input type="number" class="form-control" aria-label="Default" id="pReal" name="pReal"
-                            aria-describedby="inputGroup-sizing-default" placeholder="Precio Real" value="{{producto.nReal}}" required>
+                            aria-describedby="inputGroup-sizing-default" placeholder="Precio Real" value="{{producto.nReal}}" min="0" required>
                     </div>
                     <div class="input-group mt-4">
                         <label for="tienda" class="input-group-text">Tienda </label>
                         <select class="form-select" aria-label="Default select example" id="tienda" name="tienda"
-                            aria-describedby="inputGroup-sizing-default" >
+                            aria-describedby="inputGroup-sizing-default" required>
                             {{#if producto.tienda}}
                                 <option value="{{producto.tienda}}" selected>{{producto.tienda}}</option>
                             {{else}}
@@ -65,7 +65,7 @@
                         {{#if producto.id}}
                         <button type="submit" class="btn btn-warning w-100 mt-3">Modificar Producto</button>
                         {{else}}
-                        <button type="submit" class="btn btn-warning w-100 mt-3">Agregar Producto</button>
+                        <button type="submit"  class="btn btn-warning w-100 mt-3">Guardar Producto</button>
                         {{/if}}
                         <a href="javascript:history.back()" class="btn btn-danger w-100 mt-3">Cancelar</a>
                     </div>
@@ -74,4 +74,6 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.all.min.js"></script>
+    <script src="/javascripts/script.js"></script>
 </div>

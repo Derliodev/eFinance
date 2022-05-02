@@ -2,6 +2,8 @@ var express = require('express');
 const { redirect } = require('express/lib/response');
 const async = require('hbs/lib/async');
 var router = express.Router();
+const Swal = require('sweetalert2');
+
 
 var Usuario = require('../models').usuario;
 var Tiendas = require('../models').tiendas;
@@ -72,7 +74,7 @@ router.post('/guardarTienda', function (req, res, next) {
         region:region,
         estado:''
     }).then(function(){
-        res.redirect('/control/tiendas');
+        res.redirect('/control/tiendas/');
     })
 });
 
@@ -83,7 +85,7 @@ router.get('/eliminarTienda/:id', function (req, res, next) {
     Tiendas.findByPk(id).then((tienda) => {
         return tienda.destroy();
     }).then(function(){
-        res.redirect('/control/tiendas');
+        res.redirect('/control/tiendas/');
     })
 });
 
@@ -96,7 +98,7 @@ router.get('/activarT/:id', function (req, res, next) {
         Tiendas.findByPk(id).then(function (tienda) {
             tienda.estado = 'A';
             tienda.save();
-            res.redirect('/control/tiendas');
+            res.redirect('/control/tiendas/');
         });
     }else{
         res.render('login', {layout: 'layoutLogin'});
@@ -298,11 +300,6 @@ router.get('/pagarProducto/:id', function (req, res, next) {
         res.redirect('/control/verLista/'+idLista);
     });
 });
-
-
-
-
-
 
 
 module.exports = router;

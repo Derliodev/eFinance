@@ -1,9 +1,13 @@
 <div class="container">
     <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div id="alertT" class="hide alert alert-success alert-dismissible fade show">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            Tienda<strong> Eliminada!</strong>
+        </div>
         <div class="card my-2">
             <div class="card-body">
                 <h2 class="card-title mb-5 text-center">Tiendas </h2>
-                <table class="table table-stripped text-center">
+                <table class="table table-striped table-hover text-center table-bordered ">
                     <thead>
                         <tr>
                             <th>Tienda</th>
@@ -25,10 +29,10 @@
                         <td>{{this.region}}</td>
                         {{#if this.estado}}
                         <td><p class="btn btn-success" style="color: white;">Activado</p></td>
-                        <td><a href="/control/eliminarTienda/{{this.id}}" class="btn btn-warning" style="color: red;">Eliminar</a></td>
+                        <td><a id="eliminarTienda" href="#" onclick="eliminarTienda({{this.id}})" class="btn btn-danger" style="color: white;">Eliminar</a></td>
                         {{else}}
                         <td><a href="/control/activarT/{{this.id}}" class="btn btn-warning" style="color: red;">Activar</a></td>
-                        <td><a href="/control/eliminarTienda/{{this.id}}" class="btn btn-warning" style="color: red;">Eliminar</a></td>
+                        <td><a id="eliminarTienda" href="#" onclick="eliminarTienda({{this.id}})" class="btn btn-danger" style="color: white;">Eliminar</a></td>
                         {{/if}}
                     </tr>
                     {{/each}}
@@ -38,4 +42,6 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.all.min.js"></script>
+    <script src="/javascripts/script.js"></script>
 </div>

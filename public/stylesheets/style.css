@@ -6,7 +6,7 @@ body {
   background: linear-gradient(to right, #1CB5E0, #000046);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-  padding: 0px;
+  padding: 0px 0px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -17,8 +17,13 @@ a {
   background-color: #000046;
 }
 
+.hide{
+  display: none;
+}
+
 .container {
   margin-top: 50px;
+  margin-bottom: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -38,3 +43,4 @@ footer{
 footer p{
   text-align: center;
 }
+
